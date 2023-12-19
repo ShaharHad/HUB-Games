@@ -31,7 +31,7 @@ const get_user_from_email = function (email) {
           if (user) {
             resolve(user);
           } else {
-            reject({ status: 404, message: "Email or password incorrect" });
+            reject({ status: 404, message: "User not exist" });
           }
         })
         .catch((err) => {
@@ -133,7 +133,7 @@ router.post(
               //     });
               //   });
             } else {
-              logger.error("regiser:: user " + new_user._id + " is created");
+              logger.error("regiser:: user " + new_user._id + " not created");
               return res.status(500).json({ message: "User not created" });
             }
           })
@@ -200,10 +200,8 @@ router.post(
               });
               res.status(200).json({ message: "Login successfully" });
             } else {
-              logger.debug("login:: wrong password for user " + user._id);
-              return res
-                .status(404)
-                .json({ message: "email or password are not correct" });
+              logger.debug("login:: user not exist " + user._id);
+              return res.status(404).json({ message: "user not exist" });
             }
           }
         });

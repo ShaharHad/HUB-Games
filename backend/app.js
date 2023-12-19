@@ -34,13 +34,13 @@ mongoose
 
 const main = require("./routes/main_route");
 const auth = require("./routes/auth_route");
-const user = require("./routes/user_route");
+// const user = require("./routes/user_route");
 
 // TODO after create the client side add the frontend as static to server and undo below comment
 // app.use(express.static("dist"));
 
 app.use("/api/", main);
 app.use("/api/auth", auth);
-app.use("/api/user", user);
+// app.use("/api/user", user);
 
 module.exports = app;
