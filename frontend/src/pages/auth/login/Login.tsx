@@ -7,9 +7,9 @@ import LoginForm from "./LoginForm";
 import Alert, { AlertData } from "../../../components/Alert";
 import "../../../resize_style.css";
 
-type data = {
+interface Data {
   message: string;
-};
+}
 
 const Login = () => {
   const [alertVisibility, setAlertVisibility] = useState<boolean>(false);
@@ -32,7 +32,7 @@ const Login = () => {
         if (!(err instanceof CanceledError)) {
           let error = err as AxiosError;
           if (error.response?.data) {
-            let data: data = error.response.data as data;
+            let data: Data = error.response.data as Data;
             createAlert(data.message, "danger");
             return;
           }

@@ -3,7 +3,7 @@ import "./nav_style.css";
 
 const NavigationBar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
       <a className="navbar-brand">
         <img
           src={logo}
@@ -32,8 +32,8 @@ const NavigationBar = () => {
             <a
               className="nav-link"
               href={"#"}
-              data-bs-toggle="tooltip"
-              title="Home"
+              // data-bs-toggle="tooltip"
+              // title="Home"
             >
               Home
             </a>
@@ -42,8 +42,8 @@ const NavigationBar = () => {
             <a
               className="nav-link"
               href="#"
-              data-bs-toggle="tooltip"
-              title="Favorites"
+              // data-bs-toggle="tooltip"
+              // title="Favorites"
             >
               Favorites
             </a>
@@ -54,8 +54,8 @@ const NavigationBar = () => {
             <a
               className="nav-link"
               href="#"
-              data-bs-toggle="tooltip"
-              title="Logout"
+              // data-bs-toggle="tooltip"
+              // title="Logout"
             >
               Logout
             </a>
