@@ -3,7 +3,7 @@ import "./nav_style.css";
 
 const NavigationBar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top p-3">
       <a className="navbar-brand">
         <img
           src={logo}

@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema(
     accessToken: { type: String, default: "" },
     active: { type: Boolean, default: false },
     verification_token: { type: String, default: "" },
-    games: { type: Array, default: [] },
+    favorites_games: { type: Array, default: [] },
     events: { type: Array, default: [] },
   },
   { timestamps: { createdAt: "created_date", updatedAt: "updated_date" } },

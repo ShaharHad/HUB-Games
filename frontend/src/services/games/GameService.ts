@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import useAxios from "../../hooks/useAxios";
 import { X_RapidAPI_Key, X_RapidAPI_Host } from "../../constants";
 

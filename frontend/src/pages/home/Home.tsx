@@ -1,54 +1,41 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { RootState } from "../../state/store";
+import { setUser } from "../../state/user/user_slice";
 import { GameType } from "../../components/game/Game";
 import Games from "../../components/game/Games";
 import NavigationBar from "../../components/navigation_bar/NavigationBar";
-import axios from "axios";
 import { getAllGames } from "../../services/games/GameService";
-import { X_RapidAPI_Host, X_RapidAPI_Key } from "../../constants";
-import useAxios from "../../hooks/useAxios";
-
-// const mock_game: GameType = {
-//   id: 540,
-//   title: "Overwatch 2",
-//   thumbnail: "https://www.freetogame.com/g/540/thumbnail.jpg",
-//   short_description:
-//     "A hero-focused first-person team shooter from Blizzard Entertainment.",
-//   game_url: "https://www.freetogame.com/open/overwatch-2",
-//   genre: "Shooter",
-//   platform: "PC (Windows)",
-//   publisher: "Activision Blizzard",
-//   developer: "Blizzard Entertainment",
-//   release_date: "2022-10-04",
-//   freetogame_profile_url: "https://www.freetogame.com/overwatch-2",
-// };
-
-const config = {
-  axiosInstance: axios,
-  method: "get" as const,
-  url: "https://free-to-play-games-database.p.rapidapi.com/api/games",
-  requestConfig: {
-    headers: {
-      "X-RapidAPI-Key": X_RapidAPI_Key,
-      "X-RapidAPI-Host": X_RapidAPI_Host,
-    },
-  },
-};
+import { getUser } from "../../services/user/UserService";
 
 const Home = () => {
-  // const [isLoading, setLoading] = useState<boolean>(false);
   const [games, setGames] = useState<Array<GameType>>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
 
-  const [response, error, loading] = useAxios(config);
+  let [gamesRes, gamesErr] = getAllGames();
   // TODO caught error
   useEffect(() => {
-    setGames(response?.data ? response.data : []);
+    setGames(gamesRes?.data ? gamesRes.data : []);
     setIsLoading(false);
-  }, [response]);
+  }, [gamesRes]);
+
+  //get user and add it to state management
+  let [userRes, userErr] = getUser();
+  // TODO caught error
+  useEffect(() => {
+    dispatch(setUser(gamesRes?.data));
+    setIsLoading(false);
+  }, [userRes]);
 
   return (
     <div>
       <NavigationBar />
+      <div>
+        <h1>{user._id}</h1>
+      </div>
       {isLoading ? (
         <div className="d-flex justify-content-center">
           <div className="spinner-border" role="status">
@@ -56,7 +43,9 @@ const Home = () => {
           </div>
         </div>
       ) : (
-        <Games games_list={games} size={3} />
+        <div className="container pt-5">
+          <Games games_list={games} size={3} />
+        </div>
       )}
     </div>
   );

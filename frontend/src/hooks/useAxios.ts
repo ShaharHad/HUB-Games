@@ -10,7 +10,7 @@ interface Config {
   axiosInstance: typeof axios;
   method: "head" | "options" | "put" | "post" | "patch" | "delete" | "get";
   url: string;
-  requestConfig: AxiosRequestConfig;
+  requestConfig?: AxiosRequestConfig;
 }
 
 const useAxios = (config: Config): [AxiosResponse | null, string, boolean] => {
@@ -39,26 +39,6 @@ const useAxios = (config: Config): [AxiosResponse | null, string, boolean] => {
           setLoading(false);
         });
     };
-    // useEffect(() => {
-    //   const controller = new AbortController();
-
-    //   const fetchData = async () => {
-    //     try {
-    //       const res = await axiosInstance[method](url, {
-    //         ...requestConfig,
-    //         signal: controller.signal,
-    //       });
-    //       setResponse(res);
-    //     } catch (err) {
-    //       if (!(err instanceof CanceledError)) {
-    //         let error = err as AxiosError;
-    //         setError(error.message);
-    //       }
-    //     } finally {
-    //       setLoading(false);
-    //     }
-    //   };
-
     fetchData();
     // for cancel the request if needed
     return () => controller.abort();
