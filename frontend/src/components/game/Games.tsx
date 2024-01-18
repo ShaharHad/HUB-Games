@@ -8,7 +8,7 @@ interface Props {
 
 const Games = ({ games_list, size }: Props) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 21;
+  const recordsPerPage = 18;
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
   const records = games_list.slice(firstIndex, lastIndex);
@@ -26,7 +26,7 @@ const Games = ({ games_list, size }: Props) => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container">
       <div className={`row row-cols-1 row-cols-lg-${size} g-4 py-3`}>
         {records.map((game, index) => (
           <div className="col" key={index}>
@@ -37,7 +37,11 @@ const Games = ({ games_list, size }: Props) => {
       <nav aria-label="...">
         <ul className="pagination">
           <li className="page-item">
-            <a className="page-link" href="#" onClick={prevPage}>
+            <a
+              className={`page-link ${currentPage === 1 ? `disabled` : ``}`}
+              href="#"
+              onClick={prevPage}
+            >
               Previous
             </a>
           </li>
@@ -57,7 +61,11 @@ const Games = ({ games_list, size }: Props) => {
           ))}
 
           <li className="page-item">
-            <a className="page-link" href="#" onClick={nextPage}>
+            <a
+              className={`page-link ${currentPage === nPage ? `disabled` : ``}`}
+              href="#"
+              onClick={nextPage}
+            >
               Next
             </a>
           </li>

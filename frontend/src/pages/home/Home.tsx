@@ -32,18 +32,15 @@ const Home = () => {
 
   return (
     <div>
-      <NavigationBar />
-      <div>
-        <h1>{user._id}</h1>
-      </div>
+      {/* <NavigationBar /> */}
       {isLoading ? (
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center mt-5">
           <div className="spinner-border" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
         </div>
       ) : (
-        <div className="container pt-5">
+        <div className="container pt-5 mt-5">
           <Games games_list={games} size={3} />
         </div>
       )}
