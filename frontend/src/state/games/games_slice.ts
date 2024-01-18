@@ -13,7 +13,7 @@ const games_slice = createSlice({
   name: "games",
   initialState: initial_state,
   reducers: {
-    setGames: (state, action: PayloadAction<Array<GameType>>) => {
+    setGames: (state, action) => {
       state.games_list = action.payload;
     },
   },
