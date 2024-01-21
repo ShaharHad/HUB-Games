@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { GameType } from "../../components/game/Game";
+import { GameType } from "../../components/game/SummeryGame/SummeryGame";
 
 export interface User {
   first_name: string;

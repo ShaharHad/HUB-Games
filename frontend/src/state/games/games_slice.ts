@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { GameType } from "../../components/game/Game";
+import { GameType } from "../../components/game/SummeryGame/SummeryGame";
 
 interface Games {
   games_list: Array<GameType>;
