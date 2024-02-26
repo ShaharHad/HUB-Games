@@ -1,9 +1,13 @@
 import { useState } from "react";
-import { AxiosError, CanceledError } from "axios";
+import axios, { AxiosError, CanceledError } from "axios";
 import Alert, { AlertData } from "../../../components/Alert";
 import RegisterForm from "./RegisterForm";
 import AuthService from "../../../services/auth/AuthService";
 import "../../../resize_style.css";
+
+interface Data {
+  message: string;
+}
 
 const Register = () => {
   const [alertVisibility, setAlertVisibility] = useState(false);
@@ -30,8 +34,19 @@ const Register = () => {
       })
       .catch((err) => {
         if (!(err instanceof CanceledError)) {
-          let error = err as AxiosError;
-          createAlert(error.message, "danger");
+          if (axios.isAxiosError(err)) {
+            if (err.response?.data.message) {
+              createAlert(err.response?.data.message, "danger");
+            } else {
+              createAlert(
+                `Error: ${err.response?.status} - ${err.response?.statusText}`,
+                "danger"
+              );
+            }
+          } else {
+            let data: Data = err.response.data as Data;
+            createAlert(data.message, "danger");
+          }
         }
       });
   };

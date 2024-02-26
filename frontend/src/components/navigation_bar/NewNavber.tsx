@@ -22,9 +22,6 @@ const NewNavber = () => {
           <li>
             <a href="#">Logout</a>
           </li>
-          <li>
-            <i className="bi bi-list"></i>
-          </li>
         </ul>
       </nav>
     </div>

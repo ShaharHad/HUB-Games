@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { AxiosError, AxiosResponse, CanceledError } from "axios";
+import axios, { AxiosResponse, CanceledError } from "axios";
 
 import AuthService from "../../../services/auth/AuthService";
 import LoginForm from "./LoginForm";
@@ -30,18 +30,27 @@ const Login = () => {
       })
       .catch((err) => {
         if (!(err instanceof CanceledError)) {
-          let error = err as AxiosError;
-          if (error.response?.data) {
-            let data: Data = error.response.data as Data;
+          if (axios.isAxiosError(err)) {
+            if (err.response?.data.message) {
+              createAlert(err.response?.data.message, "danger");
+            } else {
+              createAlert(
+                `Error: ${err.response?.status} - ${err.response?.statusText}`,
+                "danger"
+              );
+            }
+          } else {
+            let data: Data = err.response.data as Data;
             createAlert(data.message, "danger");
-            return;
           }
-          createAlert(error.message, "danger");
         }
       });
   };
 
   const createAlert = (text: string, type: string) => {
+    if (!text) {
+      text = "Somthing goes wrong...";
+    }
     setAlertVisibility(true);
     setAlert({
       text: text,

@@ -43,33 +43,6 @@ const get_user_from_email = function (email) {
   });
 };
 
-// TODO work on it after finish with email_service
-// const get_user_from_verification_token = function (verification_token) {
-//   return new Promise(function (resolve, reject) {
-//     setTimeout(function () {
-//       User.findOne({ verification_token: verification_token })
-//         .then((user) => {
-//           if (user) {
-//             resolve(user);
-//           } else {
-//             reject({
-//               status: 404,
-//               message:
-//                 "user with verification_token " +
-//                 verification_token +
-//                 " not found",
-//             });
-//           }
-//         })
-//         .catch((err) => {
-//           if (err) {
-//             reject({ status: 500, message: err.errmsg });
-//           }
-//         });
-//     }, 250);
-//   });
-// };
-
 router.post(
   "/register",
   [
@@ -109,29 +82,6 @@ router.post(
             if (new_user) {
               logger.debug("regiser:: user " + new_user._id + " is created");
               return res.status(200).json({ message: "User created" });
-              //TODO work on email services later
-              // emailService
-              //   .send_verification_mail(new_user)
-              //   .then((info) => {
-              //     if (info) {
-              //       logger.debug(
-              //         "regiser:: send email to user for confirmation" +
-              //           new_user._id
-              //       );
-              //       return res.status(200).json({
-              //         message: "Check your email for mail confirmation",
-              //       });
-              //     }
-              //   })
-              //   .catch((err) => {
-              //     logger.error(
-              //       "regiser:: error while sending email to user" + new_user._id
-              //     );
-              //     return res.status(501).json({
-              //       message:
-              //         "error while sending email to user for confirmation",
-              //     });
-              //   });
             } else {
               logger.error("regiser:: user " + new_user._id + " not created");
               return res.status(500).json({ message: "User not created" });
@@ -175,17 +125,6 @@ router.post(
     };
     get_user_from_email(credentials.email.toLowerCase())
       .then(function (user) {
-        // TODO finish this after finish the email service
-        // if (!user.active) {
-        //   logger.debug(
-        //     "login:: user " +
-        //       credentials.email +
-        //       " is not approved yet, please check in your email for mail confirmation"
-        //   );
-        //   return res.status(300).json({
-        //     message: "user not approved yet, please check your email",
-        //   });
-        // }
         bcrypt.compare(credentials.pass, user.password, function (err, result) {
           if (err) {
             logger.debug("login:: " + err);
@@ -212,74 +151,5 @@ router.post(
       });
   }
 );
-
-// TODO finish it later
-// router.get("/new_user_confirmation", (req, res) => {
-//   const verification_token = req.query.token;
-//   if (!verification_token) {
-//     logger.debug("new_user_confirmation:: verification token is missing");
-//     return res.status(400).json({ message: "verification token is missing" });
-//   }
-//   get_user_from_verification_token(verification_token)
-//     .then((user) => {
-//       if (user) {
-//         user.verification_token = "";
-//         user.active = true;
-//         user
-//           .save()
-//           .then((user) => {
-//             if (user) {
-//               let htmlTemplatePathVerificationSuccess = path.join(
-//                 __dirname,
-//                 "../",
-//                 "html",
-//                 "verification_success.html"
-//               );
-//               let htmlTemplateVerificationSuccess = fs.readFileSync(
-//                 htmlTemplatePathVerificationSuccess,
-//                 "utf-8"
-//               );
-//               logger.debug(
-//                 "new_user_confirmation:: admin approved user " + user._id
-//               );
-//               return res.status(200).send(htmlTemplateVerificationSuccess);
-//             }
-//           })
-//           .catch((err) => {
-//             let htmlTemplatePathVerificationFail = path.join(
-//               __dirname,
-//               "../",
-//               "html",
-//               "verification_fail.html"
-//             );
-//             let htmlTemplateVerificationFail = fs.readFileSync(
-//               htmlTemplatePathVerificationFail,
-//               "utf-8"
-//             );
-//             logger.error(
-//               "new_user_confirmation:: admin couldn't approved user " +
-//                 user._id +
-//                 " error:  " +
-//                 err
-//             );
-//             return res.status(500).send(htmlTemplateVerificationFail);
-//           });
-//       }
-//     })
-//     .catch((err) => {
-//       let htmlTemplatePathVerificationFail = path.join(
-//         __dirname,
-//         "../",
-//         "html",
-//         "verification_fail.html"
-//       );
-//       let htmlTemplateVerificationFail = fs.readFileSync(
-//         htmlTemplatePathVerificationFail,
-//         "utf-8"
-//       );
-//       logger.error("new_user_confirmation:: " + err);
-//       return res.status(500).send(htmlTemplateVerificationFail);
-//     });
-// });
 
 module.exports = router;
